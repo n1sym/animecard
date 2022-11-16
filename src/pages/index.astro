@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro';
+import App from '../components/App.svelte'
+---
+
+<Layout title="animecard">
+	<main>
+		<h1>animecard</h1>
+    <p>個人的に評価の高いアニメを記録するページです</p>
+    <App client:only="svelte" />
+	</main>
+</Layout>
+<style>
+</style>
