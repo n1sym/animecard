@@ -39,13 +39,12 @@
 <button on:click={handleAddClick}> 追加 </button>
 
 <button on:click={handlePostClick}> 投稿 </button>
+
 {#if export_url != ""}
-  <p><a href={export_url}>{export_url}</a></p>
+  <p>ページを作成しました : <a href={export_url} target="_blank" rel="noopener noreferrer">{export_url}</a></p>
 {/if}
 
-<br />
 <p>名前: <input bind:value={name} /></p>
-
 
 <table>
   <tbody>

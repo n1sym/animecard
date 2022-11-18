@@ -3,11 +3,12 @@ const { id } = Astro.params;
 const url = "https://first_worker.n1sym.workers.dev"
 const uri = url + "/api/cards/" + id
 const response = await fetch(uri);
-const data = await response.json()
-console.log(data)
-const tables = data.tables
+let data = await response.json()
+if (data == null) {
+  data = {tables: []}
+}
+let tables = data.tables
 let name = data.name
-
 if (name == "") {
   name = "匿名"
 }
@@ -19,7 +20,6 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="animecard">
 	<main>
 		<h1>animecard</h1>
-    <p>{name} さんの好きなアニメ</p>
-    <Table tables={tables}/>
+    <Table tables={tables} name={name}/>
 	</main>
 </Layout>
