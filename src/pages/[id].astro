@@ -1,5 +1,20 @@
 ---
 const { id } = Astro.params;
+const url = "https://first_worker.n1sym.workers.dev"
+const uri = url + "/api/cards/" + id
+const response = await fetch(uri);
+
+const tables = await response.json()
+console.log(tables)
+
+import Table from '../components/Table.svelte';
+import Layout from '../layouts/Layout.astro';
 ---
 
-<h1>{id}</h1>
+<Layout title="animecard">
+	<main>
+		<h1>animecard</h1>
+    <p>guest さんの好きなアニメ</p>
+    <Table tables={tables}/>
+	</main>
+</Layout>
