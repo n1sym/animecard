@@ -1,7 +1,8 @@
 <script>
   let tables = [{ id: 1, name: "2022夏", title: "" }];
-  let name = ""
-  let export_url = ""
+  let name = "";
+  let export_url = "";
+  let error = "";
 
   const SERASONS = ["春", "夏", "秋", "冬"];
   const SEASON_KEYS = { 春: 3, 夏: 0, 秋: 1, 冬: 2 };
@@ -23,16 +24,20 @@
     tables = tables.concat({ id: id, name: name, title: "" });
   }
 
-  async function handlePostClick () {
-    const data = {name: name, tables: tables}
-    const url = "https://first_worker.n1sym.workers.dev/api/cards"
-    const res = await fetch(url, {
-      method: "POST",
-      mode: "cors",
-      body: JSON.stringify(data)
-    })
-    const json = await res.json()
-    export_url = "https://animecard.pages.dev/" + json
+  async function handlePostClick() {
+    try {
+      const data = { name: name, tables: tables };
+      const url = "https://first_worker.n1sym.workers.dev/api/cards";
+      const res = await fetch(url, {
+        method: "POST",
+        mode: "cors",
+        body: JSON.stringify(data),
+      });
+      const json = await res.json();
+      export_url = "https://animecard.pages.dev/" + json;
+    } catch (e) {
+      error = e;
+    }
   }
 </script>
 
@@ -41,8 +46,16 @@
 <button on:click={handlePostClick}> 投稿 </button>
 
 {#if export_url != ""}
-  <p>ページを作成しました : <a href={export_url} target="_blank" rel="noopener noreferrer">{export_url}</a></p>
+  <p>
+    ページを作成しました : <a
+      href={export_url}
+      target="_blank"
+      rel="noopener noreferrer">{export_url}</a
+    >
+  </p>
 {/if}
+
+<p>{error}</p>
 
 <p>名前: <input bind:value={name} /></p>
 
