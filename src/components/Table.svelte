@@ -8,7 +8,11 @@
       <tr>
         <td id="c1">{row.name}</td>
         <td>
-          {row.title}
+          {#if row.title == ""}
+            {"-"}
+          {:else}
+            {row.title}
+          {/if}
         </td>
       </tr>
     {/each}
@@ -16,7 +20,5 @@
 </table>
 
 <style>
-  #c1 {
-    width: 60px;
-  }
+
 </style>

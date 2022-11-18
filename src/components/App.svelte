@@ -1,5 +1,7 @@
 <script>
   let tables = [{ id: 1, name: "2022夏", title: "" }];
+  let name = ""
+  let export_url = ""
 
   const SERASONS = ["春", "夏", "秋", "冬"];
   const SEASON_KEYS = { 春: 3, 夏: 0, 秋: 1, 冬: 2 };
@@ -21,22 +23,35 @@
     tables = tables.concat({ id: id, name: name, title: "" });
   }
 
-  function handlePostClick() {
-    console.log(tables);
+  async function handlePostClick () {
+    const data = {name: name, tables: tables}
+    const url = "https://first_worker.n1sym.workers.dev/api/cards"
+    const res = await fetch(url, {
+      method: "POST",
+      mode: "cors",
+      body: JSON.stringify(data)
+    })
+    const json = await res.json()
+    export_url = "https://animecard.pages.dev/" + json
   }
 </script>
 
-<button on:click={handleAddClick}> Add </button>
+<button on:click={handleAddClick}> 追加 </button>
 
-<button on:click={handlePostClick}> Post </button>
+<button on:click={handlePostClick}> 投稿 </button>
+{#if export_url != ""}
+  <p><a href={export_url}>{export_url}</a></p>
+{/if}
 
-<br /><br />
+<br />
+<p>名前: <input bind:value={name} /></p>
+
 
 <table>
   <tbody>
     {#each tables as row}
       <tr>
-        <td>{row.name}</td>
+        <td id="c1">{row.name}</td>
         <td>
           <input bind:value={row.title} />
         </td>
