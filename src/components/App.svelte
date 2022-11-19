@@ -21,6 +21,9 @@
 	let bar = 'qux'
 	let result = null
 	
+  let stack = ""
+  let message = ""
+
 	async function doPost () {
 		try {
       const data = { name: name, tables: tables };
@@ -34,6 +37,8 @@
       export_url = "https://animecard.pages.dev/" + json;
     } catch (e) {
       error = e;
+      stack = e.stack;
+      message = e.message
     }
 	}
 
@@ -80,6 +85,8 @@
 {/if}
 
 <p>{error}</p>
+<p>{message}</p>
+<p>{stack}</p>
 
 <p>名前: <input bind:value={name} /></p>
 
