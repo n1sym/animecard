@@ -22,16 +22,19 @@
 	let result = null
 	
 	async function doPost () {
-		const res = await fetch('https://httpbin.org/post', {
-			method: 'POST',
-			body: JSON.stringify({
-				foo,
-				bar
-			})
-		})
-		
-		const json = await res.json()
-		result = JSON.stringify(json)
+		try {
+      const data = { name: name, tables: tables };
+      const url = "https://first_worker.n1sym.workers.dev/api/cards";
+      const res = await fetch(url, {
+        method: "POST",
+        //mode: "cors",
+        body: JSON.stringify(data),
+      });
+      const json = await res.json();
+      export_url = "https://animecard.pages.dev/" + json;
+    } catch (e) {
+      error = e;
+    }
 	}
 
   function handleAddClick() {
