@@ -1,6 +1,5 @@
 import { defineConfig } from 'astro/config';
-//import cloudflare from '@astrojs/cloudflare';
-import vercel from '@astrojs/vercel/serverless';
+import cloudflare from '@astrojs/cloudflare';
 
 // https://astro.build/config
 import svelte from "@astrojs/svelte";
@@ -9,5 +8,5 @@ import svelte from "@astrojs/svelte";
 export default defineConfig({
   integrations: [svelte()],
   output: 'server',
-  adapter: vercel()//cloudflare()
+  adapter: cloudflare()
 });

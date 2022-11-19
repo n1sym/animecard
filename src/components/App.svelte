@@ -17,6 +17,23 @@
     return year.toString() + SERASONS[key];
   }
 
+  let foo = 'baz'
+	let bar = 'qux'
+	let result = null
+	
+	async function doPost () {
+		const res = await fetch('https://httpbin.org/post', {
+			method: 'POST',
+			body: JSON.stringify({
+				foo,
+				bar
+			})
+		})
+		
+		const json = await res.json()
+		result = JSON.stringify(json)
+	}
+
   function handleAddClick() {
     const last_row = tables[tables.length - 1];
     const id = last_row.id + 1;
@@ -44,6 +61,10 @@
 <button on:click={handleAddClick}> 追加 </button>
 
 <button on:click={handlePostClick}> 投稿 </button>
+
+<button on:click={doPost}> 投稿2 </button>
+
+{result}
 
 {#if export_url != ""}
   <p>
