@@ -44,7 +44,7 @@
   async function handlePostClick() {
     try {
       const data = { name: name, tables: tables };
-      const url = "https://first_worker.n1sym.workers.dev/api/cards";
+      const url = "https://animecard-worker.n1sym.com/api/cards";
       const res = await fetch(url, {
         method: "POST",
         //mode: "cors",
