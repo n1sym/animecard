@@ -47,7 +47,7 @@
       const url = "https://first_worker.n1sym.workers.dev/api/cards";
       const res = await fetch(url, {
         method: "POST",
-        mode: "cors",
+        //mode: "cors",
         body: JSON.stringify(data),
       });
       const json = await res.json();
