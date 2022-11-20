@@ -4,11 +4,20 @@ import App from '../components/App.svelte'
 
 const user = import.meta.env.BASIC_USER
 const pass = import.meta.env.BASIC_PASS
+
+let tables = [
+    { id: 1, name: "2022夏", title: "" },
+    { id: 2, name: "2022春", title: "" },
+    { id: 3, name: "2022冬", title: "" },
+    { id: 4, name: "2021秋", title: "" },
+  ];
+  
 ---
 
 <Layout title="animecard">
 	<main>
 		<h1>animecard</h1>
-    <App basic_user={user} basic_pass={pass} client:only="svelte" />
+    <p>好きなアニメを記録してみましょう</p>
+    <App basic_user={user} basic_pass={pass} tables={tables} client:only="svelte" />
 	</main>
 </Layout>

@@ -2,7 +2,8 @@
   import { Buffer } from "buffer";
   export let basic_user
   export let basic_pass
-  let tables = [{ id: 1, name: "2022夏", title: "" }];
+  export let tables
+
   let name = "";
   let export_url = "";
 
@@ -26,6 +27,13 @@
     tables = tables.concat({ id: id, name: name, title: "" });
   }
 
+  function handleRemoveClick() {
+    if (tables.length == 1) {
+      return;
+    }
+    tables = tables.slice(0, -1);
+  }
+
   const encoded = Buffer.from(`${basic_user}:${basic_pass}`).toString("base64");
   async function handlePostClick() {
     try {
@@ -46,21 +54,11 @@
   }
 </script>
 
-<button on:click={handleAddClick}> 追加 </button>
-
-<button on:click={handlePostClick}> 投稿 </button>
-
-{#if export_url != ""}
-  <p>
-    ページを作成しました : <a
-      href={export_url}
-      target="_blank"
-      rel="noopener noreferrer">{export_url}</a
-    >
-  </p>
-{/if}
-
 <p>名前: <input bind:value={name} /></p>
+
+<p>
+  <button on:click={handleAddClick}> 行の追加 </button>
+</p>
 
 <table>
   <tbody>
@@ -74,3 +72,25 @@
     {/each}
   </tbody>
 </table>
+
+<p>
+  <button on:click={handleRemoveClick}> 行の削除 </button>
+</p>
+
+<hr>
+
+<button on:click={handlePostClick}> 投稿 </button>
+
+{#if export_url != ""}
+  <p>
+    ページを作成しました : <a
+      href={export_url}
+      target="_blank"
+      rel="noopener noreferrer">{export_url}</a
+    >
+  </p>
+{/if}
+
+<style>
+  hr {margin-bottom: 30px; margin-top: 30px;}
+</style>
