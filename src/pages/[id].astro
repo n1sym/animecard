@@ -1,25 +1,35 @@
 ---
-const { id } = Astro.params;
-const url = "https://first_worker.n1sym.workers.dev"
-const uri = url + "/api/cards/" + id
-const response = await fetch(uri);
-let data = await response.json()
-if (data == null) {
-  data = {tables: []}
-}
-let tables = data.tables
-let name = data.name
-if (name == "") {
-  name = "匿名"
-}
+import { Buffer } from "buffer";
+import Table from "../components/Table.svelte";
+import Layout from "../layouts/Layout.astro";
 
-import Table from '../components/Table.svelte';
-import Layout from '../layouts/Layout.astro';
+const { id } = Astro.params;
+const url = "https://first_worker.n1sym.workers.dev";
+const uri = url + "/api/cards/" + id;
+const user = import.meta.env.BASIC_USER;
+const pass = import.meta.env.BASIC_PASS;
+
+const encoded = Buffer.from(`${user}:${pass}`).toString("base64");
+const response = await fetch(uri, {
+  headers: new Headers({
+    Authorization: "Basic " + encoded,
+  }),
+});
+
+let data = await response.json();
+if (data == null) {
+  data = { tables: [] };
+}
+let tables = data.tables;
+let name = data.name;
+if (name == "") {
+  name = "匿名";
+}
 ---
 
 <Layout title="animecard">
-	<main>
-		<h1>animecard</h1>
-    <Table tables={tables} name={name}/>
-	</main>
+  <main>
+    <h1>animecard</h1>
+    <Table tables={tables} name={name} />
+  </main>
 </Layout>

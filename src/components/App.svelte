@@ -1,8 +1,10 @@
 <script>
+  import { Buffer } from "buffer";
+  export let basic_user
+  export let basic_pass
   let tables = [{ id: 1, name: "2022夏", title: "" }];
   let name = "";
   let export_url = "";
-  let error = "";
 
   const SERASONS = ["春", "夏", "秋", "冬"];
   const SEASON_KEYS = { 春: 3, 夏: 0, 秋: 1, 冬: 2 };
@@ -17,31 +19,6 @@
     return year.toString() + SERASONS[key];
   }
 
-  let foo = 'baz'
-	let bar = 'qux'
-	let result = null
-	
-  let stack = ""
-  let message = ""
-
-	async function doPost () {
-		try {
-      const data = { name: name, tables: tables };
-      const url = "https://first_worker.n1sym.workers.dev/api/cards";
-      const res = await fetch(url, {
-        method: "POST",
-        //mode: "cors",
-        body: JSON.stringify(data),
-      });
-      const json = await res.json();
-      export_url = "https://animecard.pages.dev/" + json;
-    } catch (e) {
-      error = e;
-      stack = e.stack;
-      message = e.message
-    }
-	}
-
   function handleAddClick() {
     const last_row = tables[tables.length - 1];
     const id = last_row.id + 1;
@@ -49,19 +26,22 @@
     tables = tables.concat({ id: id, name: name, title: "" });
   }
 
+  const encoded = Buffer.from(`${basic_user}:${basic_pass}`).toString("base64");
   async function handlePostClick() {
     try {
       const data = { name: name, tables: tables };
       const url = "https://animecard-worker.n1sym.com/api/cards";
       const res = await fetch(url, {
         method: "POST",
-        //mode: "cors",
         body: JSON.stringify(data),
+        headers: new Headers({
+          Authorization: "Basic " + encoded
+        })
       });
       const json = await res.json();
       export_url = "https://animecard.pages.dev/" + json;
     } catch (e) {
-      error = e;
+      console.log(e)
     }
   }
 </script>
@@ -69,10 +49,6 @@
 <button on:click={handleAddClick}> 追加 </button>
 
 <button on:click={handlePostClick}> 投稿 </button>
-
-<button on:click={doPost}> 投稿2 </button>
-
-{result}
 
 {#if export_url != ""}
   <p>
@@ -83,10 +59,6 @@
     >
   </p>
 {/if}
-
-<p>{error}</p>
-<p>{message}</p>
-<p>{stack}</p>
 
 <p>名前: <input bind:value={name} /></p>
 

@@ -1,11 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import App from '../components/App.svelte'
+
+const user = import.meta.env.BASIC_USER
+const pass = import.meta.env.BASIC_PASS
 ---
 
 <Layout title="animecard">
 	<main>
 		<h1>animecard</h1>
-    <App client:only="svelte" />
+    <App basic_user={user} basic_pass={pass} client:only="svelte" />
 	</main>
 </Layout>
